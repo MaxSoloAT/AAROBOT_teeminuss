@@ -8,6 +8,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(300,200);
+    ui->lineEdit->setValidator(new QIntValidator(-999,999,this));
     arduino = new QSerialPort;
     ui->lineEdit->setText("0");
     ui->One_radio->setChecked(true);
@@ -52,10 +53,10 @@ void Widget::on_lineEdit_textChanged(const QString &arg1)
 
 void Widget::on_comboBox_activated(const QString &arg1)
 {
-   /* Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()){
+    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()){
         ui->comboBox->addItem(port.portName());
-    }*/
-    qDebug()<<arg1<<endl;
+    }
+    //qDebug()<<arg1<<endl;
     arduino_port = arg1;
 }
 
@@ -92,3 +93,35 @@ void Widget::on_MX_button_clicked()
     arduino->write(mx.toStdString().c_str());
 }
 
+
+void Widget::on_PY_button_clicked()
+{
+    y+= step_size;
+    QString py = "G0 Y"+ QString::number(y)+"\r";
+    qDebug()<<py <<endl;
+    arduino->write(py.toStdString().c_str());
+}
+
+void Widget::on_MY_button_clicked()
+{
+    y-= step_size;
+    QString py = "G0 Y"+ QString::number(y)+"\r";
+    qDebug()<<py <<endl;
+    arduino->write(py.toStdString().c_str());
+}
+
+void Widget::on_PZ_button_clicked()
+{
+    z+= step_size;
+    QString pz = "G0 Z"+ QString::number(z)+"\r";
+    qDebug()<<pz <<endl;
+    arduino->write(pz.toStdString().c_str());
+}
+
+void Widget::on_MZ_button_clicked()
+{
+    z-= step_size;
+    QString pz = "G0 Z"+ QString::number(z)+"\r";
+    qDebug()<<pz <<endl;
+    arduino->write(pz.toStdString().c_str());
+}

@@ -35,6 +35,14 @@ private slots:
 
     void on_Close_button_clicked();
 
+    void on_PY_button_clicked();
+
+    void on_MY_button_clicked();
+
+    void on_PZ_button_clicked();
+
+    void on_MZ_button_clicked();
+
 private:
     Ui::Widget *ui;
     QSerialPort *arduino;
