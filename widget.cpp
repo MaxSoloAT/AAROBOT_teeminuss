@@ -7,7 +7,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-   setFixedSize(300,200);
+    setFixedSize(300,200);
+    arduino = new QSerialPort;
     ui->lineEdit->setText("0");
     ui->One_radio->setChecked(true);
     step_size = 1;
@@ -51,22 +52,23 @@ void Widget::on_lineEdit_textChanged(const QString &arg1)
 
 void Widget::on_comboBox_activated(const QString &arg1)
 {
-    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()){
+   /* Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()){
         ui->comboBox->addItem(port.portName());
-    }
-    //qDebug()<<arg1<<endl;
+    }*/
+    qDebug()<<arg1<<endl;
     arduino_port = arg1;
 }
 
 void Widget::on_Open_button_clicked()
 {
     arduino->setPortName(arduino_port);
-    arduino->open(QSerialPort::WriteOnly);
     arduino->setBaudRate(QSerialPort::Baud115200);
     arduino->setDataBits(QSerialPort::Data8);
-    arduino->setFlowControl(QSerialPort::NoFlowControl);
     arduino->setParity(QSerialPort::NoParity);
     arduino->setStopBits(QSerialPort::OneStop);
+    arduino->setFlowControl(QSerialPort::NoFlowControl);
+    arduino->open(QSerialPort::WriteOnly);
+    arduino->open(QIODevice::WriteOnly);
 }
 
 void Widget::on_Close_button_clicked()
